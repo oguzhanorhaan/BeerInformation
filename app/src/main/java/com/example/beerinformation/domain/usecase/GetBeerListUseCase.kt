@@ -6,6 +6,6 @@ import com.example.beerinformation.domain.repository.BeersRepository
 
 class GetBeerListUseCase constructor(private val beersRepository: BeersRepository) {
 
-    suspend fun getBeerList(): List<BeerItemDTO> =
+    suspend fun get(): List<BeerItemDTO> =
         beersRepository.getBeerList()
 }
