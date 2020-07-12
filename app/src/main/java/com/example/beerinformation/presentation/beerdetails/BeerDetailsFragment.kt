@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.example.beerinformation.databinding.FragmentBeerDetailsBinding
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 
 class BeerDetailsFragment : Fragment() {
@@ -17,9 +18,8 @@ class BeerDetailsFragment : Fragment() {
         val binding = FragmentBeerDetailsBinding.inflate(inflater)
         binding.lifecycleOwner = this
         val beerItem = BeerDetailsFragmentArgs.fromBundle(arguments!!).selectedItem
-        val viewModelFactory = BeerDetailsViewModelFactory(Integer(beerItem))
-        binding.viewModel = ViewModelProviders.of(
-            this, viewModelFactory).get(BeerDetailsViewModel::class.java)
+        val vm: BeerDetailsViewModel by inject<BeerDetailsViewModel> { parametersOf(Integer(beerItem)) }
+        binding.viewModel = vm
         return binding.root
     }
 

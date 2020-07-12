@@ -3,10 +3,7 @@ package com.example.beerinformation.presentation.beerlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.beerinformation.data.repository.BeersRepositoryImpl
-import com.example.beerinformation.network.BeersApi
 import com.example.beerinformation.datasource.model.BeerItemDTO
-import com.example.beerinformation.datasource.remote.BeersRemoteDataSourceImpl
 import com.example.beerinformation.domain.usecase.GetBeerListUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +13,7 @@ import kotlinx.coroutines.launch
 enum class BeersApiStatus { LOADING, ERROR, DONE }
 
 
-class BeerListViewModel: ViewModel() {
+class BeerListViewModel constructor(private val getBeerListUseCase: GetBeerListUseCase): ViewModel() {
 
     // The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<BeersApiStatus>()
@@ -50,28 +47,12 @@ class BeerListViewModel: ViewModel() {
     }
 
     private fun getBeerListItems() {
-        /*coroutineScope.launch {
-            // Get the Deferred object for our Retrofit request
-            var getItemsDeferred = BeersApi.retrofitService.getBeerItems()
-            try {
-                _status.value = BeersApiStatus.LOADING
-                // this will run on a thread managed by Retrofit
-                val listResult = getItemsDeferred.await()
-                _status.value = BeersApiStatus.DONE
-                _items.value = listResult
-            } catch (e: Exception) {
-                _status.value = BeersApiStatus.ERROR
-                _items.value = ArrayList()
-            }
-        } */
-
         coroutineScope.launch {
             // Get the Deferred object for our Retrofit request
             try {
                 _status.value = BeersApiStatus.LOADING
                 // this will run on a thread managed by Retrofit
-                val uc = GetBeerListUseCase(BeersRepositoryImpl(BeersRemoteDataSourceImpl(com.example.beerinformation.datasource.remote.BeersApi.retrofitService)))
-                val listResult= uc.getBeerList()
+                val listResult = getBeerListUseCase.get()
                 _status.value = BeersApiStatus.DONE
                 _items.value = listResult
             } catch (e: Exception) {
@@ -79,8 +60,6 @@ class BeerListViewModel: ViewModel() {
                 _items.value = ArrayList()
             }
         }
-
-
     }
 
 
@@ -100,7 +79,7 @@ class BeerListViewModel: ViewModel() {
     /**
      * After the navigation has taken place, make sure navigateToSelectedProperty is set to null
      */
-    fun displayPropertyDetailsComplete() {
+    fun displayItemDetailsComplete() {
         _navigateToSelectedItem.value = null
     }
 

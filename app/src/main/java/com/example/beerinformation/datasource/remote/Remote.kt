@@ -25,22 +25,15 @@ interface BeerApiService {
             Deferred<List<BeerItemDTO>>
 }
 
-
-private const val BASE_URL = "https://api.punkapi.com/v2/"
-
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
 
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .addCallAdapterFactory(CoroutineCallAdapterFactory())
-    .baseUrl(BASE_URL)
-    .build()
+fun createNetworkClient(baseUrl: String) = retrofitClient(baseUrl)
 
-
-
-object BeersApi {
-    val retrofitService : BeerApiService by lazy { retrofit.create(BeerApiService::class.java) }
-}
+private fun retrofitClient(baseUrl: String): Retrofit =  Retrofit.Builder()
+.addConverterFactory(MoshiConverterFactory.create(moshi))
+.addCallAdapterFactory(CoroutineCallAdapterFactory())
+.baseUrl(baseUrl)
+.build()
