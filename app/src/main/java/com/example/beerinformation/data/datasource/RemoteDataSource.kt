@@ -6,4 +6,6 @@ import kotlinx.coroutines.Deferred
 interface BeersRemoteDataSource {
 
      suspend fun getBeerList(): List<BeerItemDTO>
+
+     suspend fun getBeerItemDetails(id: String): List<BeerItemDTO>
 }

@@ -8,6 +8,7 @@ import com.example.beerinformation.network.BeersApi
 import com.example.beerinformation.presentation.beerlist.BeersApiStatus
 import com.example.beerinformation.datasource.model.BeerItemDTO
 import com.example.beerinformation.datasource.remote.BeersRemoteDataSourceImpl
+import com.example.beerinformation.domain.usecase.GetBeerDetailsUseCase
 import com.example.beerinformation.domain.usecase.GetBeerListUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,12 +50,27 @@ class BeerDetailsViewModel(beerItem: Integer) : ViewModel() {
     }
 
     private fun getSelectedBeerDetails() {
-        coroutineScope.launch {
+       /* coroutineScope.launch {
             var getItemDetailsDeferred = BeersApi.retrofitService.getBeerItemDetails("beers/"+_selectedItemId.value.toString())
             try {
                 _status.value = BeersApiStatus.LOADING
                 // this will run on a thread managed by Retrofit
                 val result = getItemDetailsDeferred.await()
+                _status.value = BeersApiStatus.DONE
+                _selectedItem.value = result[0]
+
+            }catch (e: Exception) {
+                _status.value = BeersApiStatus.ERROR
+            }
+        } */
+
+        coroutineScope.launch {
+            try {
+                _status.value = BeersApiStatus.LOADING
+                // this will run on a thread managed by Retrofit
+                val uc = GetBeerDetailsUseCase(BeersRepositoryImpl(BeersRemoteDataSourceImpl(com.example.beerinformation.datasource.remote.BeersApi.retrofitService)))
+
+                val result = uc.getBeerItemDetails(_selectedItemId.value.toString())
                 _status.value = BeersApiStatus.DONE
                 _selectedItem.value = result[0]
 

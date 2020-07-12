@@ -10,4 +10,8 @@ class BeersRepositoryImpl constructor(
     override suspend fun getBeerList(): List<BeerItemDTO> {
         return remoteDataSource.getBeerList()
     }
+
+    override suspend fun getBeerItemDetails(id: String): List<BeerItemDTO> {
+        return remoteDataSource.getBeerItemDetails(id)
+    }
 }
