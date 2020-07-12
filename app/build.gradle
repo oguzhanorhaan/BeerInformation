@@ -73,6 +73,11 @@ dependencies {
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.1.0"
 
+    //RecyclerView item decoration
+    implementation ('com.github.thekhaeng:recycler-margin:1.2.1') {
+        exclude group: 'com.android.support', module: 'recyclerview'
+    }
+
     // Moshi
     implementation "com.squareup.moshi:moshi:1.8.0"
     implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
@@ -105,8 +110,4 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'android.arch.core:core-testing:2.1.0'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
-
-
-
-
 }

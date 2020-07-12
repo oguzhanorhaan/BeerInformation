@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.beerinformation.databinding.FragmentBeerListBinding
 import com.example.beerinformation.injectFeature
+import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration
 import org.koin.android.ext.android.inject
 
 class BeerListFragment : Fragment() {
@@ -24,6 +25,8 @@ class BeerListFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+
+        binding.beerList.addItemDecoration(  LayoutMarginDecoration( 1, 15 ) );
 
         binding.beerList.adapter = BeerListAdapter(BeerListAdapter.OnClickListener {
             viewModel.displayItemDetails(it)
