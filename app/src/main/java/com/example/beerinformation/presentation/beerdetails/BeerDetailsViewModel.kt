@@ -3,8 +3,9 @@ package com.example.beerinformation.presentation.beerdetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.beerinformation.datasource.model.mapToDomain
+import com.example.beerinformation.domain.model.BeerItem
 import com.example.beerinformation.presentation.beerlist.BeersApiStatus
-import com.example.beerinformation.datasource.model.BeerItemDTO
 import com.example.beerinformation.domain.usecase.GetBeerDetailsUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,9 +24,9 @@ class BeerDetailsViewModel constructor(private val beerItemId: Integer, private 
 
     private val _selectedItemId = MutableLiveData<Integer>()
 
-    private val _selectedItem = MutableLiveData<BeerItemDTO>()
+    private val _selectedItem = MutableLiveData<BeerItem>()
 
-    val selectedItem: LiveData<BeerItemDTO>
+    val selectedItem: LiveData<BeerItem>
         get() = _selectedItem
 
 
@@ -52,7 +53,10 @@ class BeerDetailsViewModel constructor(private val beerItemId: Integer, private 
                 // this will run on a thread managed by Retrofit
                 val result = getBeerDetailsUseCase.get(beerItemId.toString())
                 _status.value = BeersApiStatus.DONE
-                _selectedItem.value = result[0]
+
+                //For providing separation of concerns, data transfer objects(DTO) mapped to domain objects
+                val resItem  = result[0]
+                _selectedItem.value = resItem.mapToDomain()
 
             }catch (e: Exception) {
                 _status.value = BeersApiStatus.ERROR

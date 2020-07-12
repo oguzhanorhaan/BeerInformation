@@ -5,16 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.beerinformation.datasource.model.BeerItemDTO
 import com.example.beerinformation.databinding.ListViewItemBinding
+import com.example.beerinformation.domain.model.BeerItem
 
 
 class BeerListAdapter( val onClickListener: OnClickListener ) :
-    ListAdapter<BeerItemDTO, BeerListAdapter.BeerItemViewHolder>(DiffCallback) {
+    ListAdapter<BeerItem, BeerListAdapter.BeerItemViewHolder>(DiffCallback) {
 
     class BeerItemViewHolder(private var binding: ListViewItemBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(beerItem: BeerItemDTO) {
+        fun bind(beerItem: BeerItem) {
             binding.property = beerItem
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
@@ -23,12 +23,12 @@ class BeerListAdapter( val onClickListener: OnClickListener ) :
     }
 
 
-    companion object DiffCallback : DiffUtil.ItemCallback<BeerItemDTO>() {
-        override fun areItemsTheSame(oldItem: BeerItemDTO, newItem: BeerItemDTO): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<BeerItem>() {
+        override fun areItemsTheSame(oldItem: BeerItem, newItem: BeerItem): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: BeerItemDTO, newItem: BeerItemDTO): Boolean {
+        override fun areContentsTheSame(oldItem: BeerItem, newItem: BeerItem): Boolean {
             return oldItem.id == newItem.id
         }
     }
@@ -49,7 +49,7 @@ class BeerListAdapter( val onClickListener: OnClickListener ) :
     }
 
 
-    class OnClickListener(val clickListener: (beerItem: BeerItemDTO) -> Unit) {
-        fun onClick(beerItem: BeerItemDTO) = clickListener(beerItem)
+    class OnClickListener(val clickListener: (beerItem: BeerItem) -> Unit) {
+        fun onClick(beerItem: BeerItem) = clickListener(beerItem)
     }
 }

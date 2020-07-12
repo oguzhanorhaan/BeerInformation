@@ -7,7 +7,7 @@
     <data>
         <variable
             name="property"
-            type="com.example.beerinformation.datasource.model.BeerItemDTO" />
+            type="com.example.beerinformation.domain.model.BeerItem" />
     </data>
 
     <androidx.cardview.widget.CardView

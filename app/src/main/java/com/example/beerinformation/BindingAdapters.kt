@@ -9,10 +9,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.beerinformation.presentation.beerlist.BeerListAdapter
 import com.example.beerinformation.presentation.beerlist.BeersApiStatus
-import com.example.beerinformation.datasource.model.BeerItemDTO
+import com.example.beerinformation.domain.model.BeerItem
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<BeerItemDTO>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<BeerItem>?) {
     val adapter = recyclerView.adapter as BeerListAdapter
     adapter.submitList(data)
 }

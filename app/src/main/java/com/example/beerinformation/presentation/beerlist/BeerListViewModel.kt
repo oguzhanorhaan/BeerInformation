@@ -3,7 +3,8 @@ package com.example.beerinformation.presentation.beerlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.beerinformation.datasource.model.BeerItemDTO
+import com.example.beerinformation.datasource.model.mapToDomain
+import com.example.beerinformation.domain.model.BeerItem
 import com.example.beerinformation.domain.usecase.GetBeerListUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,17 +24,17 @@ class BeerListViewModel constructor(private val getBeerListUseCase: GetBeerListU
         get() = _status
 
 
-    private val _items = MutableLiveData<List<BeerItemDTO>>()
+    private val _items = MutableLiveData<List<BeerItem>>()
 
 
-    val items: LiveData<List<BeerItemDTO>>
+    val items: LiveData<List<BeerItem>>
         get() = _items
 
 
-    private val _navigateToSelectedItem = MutableLiveData<BeerItemDTO>()
+    private val _navigateToSelectedItem = MutableLiveData<BeerItem>()
 
 
-    val navigateToSelectedItem: LiveData<BeerItemDTO>
+    val navigateToSelectedItem: LiveData<BeerItem>
         get() = _navigateToSelectedItem
 
     // Create a Coroutine scope using a job to be able to cancel when needed
@@ -54,7 +55,13 @@ class BeerListViewModel constructor(private val getBeerListUseCase: GetBeerListU
                 // this will run on a thread managed by Retrofit
                 val listResult = getBeerListUseCase.get()
                 _status.value = BeersApiStatus.DONE
-                _items.value = listResult
+
+                //For providing separation of concerns, data transfer objects(DTO) mapped to domain objects
+                var domainItems = ArrayList<BeerItem>()
+                listResult.forEach{
+                    domainItems.add(it.mapToDomain())
+                }
+                _items.value = domainItems
             } catch (e: Exception) {
                 _status.value = BeersApiStatus.ERROR
                 _items.value = ArrayList()
@@ -70,9 +77,9 @@ class BeerListViewModel constructor(private val getBeerListUseCase: GetBeerListU
 
     /**
      * When the property is clicked, set the [_navigateToSelectedProperty] [MutableLiveData]
-     * @param beerItem The [BeerItemDTO] that was clicked on.
+     * @param beerItem The [BeerItem] that was clicked on.
      */
-    fun displayItemDetails(beerItem: BeerItemDTO) {
+    fun displayItemDetails(beerItem: BeerItem) {
         _navigateToSelectedItem.value = beerItem
     }
 
