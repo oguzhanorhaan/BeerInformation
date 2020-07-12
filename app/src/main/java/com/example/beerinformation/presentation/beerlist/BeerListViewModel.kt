@@ -50,21 +50,21 @@ class BeerListViewModel constructor(private val getBeerListUseCase: GetBeerListU
     private fun getBeerListItems() {
         coroutineScope.launch {
             // Get the Deferred object for our Retrofit request
-            try {
-                _status.value = BeersApiStatus.LOADING
-                // this will run on a thread managed by Retrofit
-                val listResult = getBeerListUseCase.get()
-                _status.value = BeersApiStatus.DONE
+            _status.value = BeersApiStatus.LOADING
+            // this will run on a thread managed by Retrofit
+            val listResult = getBeerListUseCase.get()
+            _status.value = listResult.status
 
-                //For providing separation of concerns, data transfer objects(DTO) mapped to domain objects
-                var domainItems = ArrayList<BeerItem>()
-                listResult.forEach{
-                    domainItems.add(it.mapToDomain())
+            when(_status.value) {
+                BeersApiStatus.DONE -> {
+                    var domainItems = ArrayList<BeerItem>()
+                    listResult.data?.forEach{
+                        domainItems.add(it.mapToDomain())
+                    }
+                    _items.value = domainItems
                 }
-                _items.value = domainItems
-            } catch (e: Exception) {
-                _status.value = BeersApiStatus.ERROR
-                _items.value = ArrayList()
+
+                BeersApiStatus.ERROR ->_items.value = ArrayList()
             }
         }
     }

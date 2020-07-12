@@ -4,6 +4,7 @@ import com.example.beerinformation.data.datasource.BeersRemoteDataSource
 import com.example.beerinformation.data.repository.BeersRepositoryImpl
 import com.example.beerinformation.datasource.remote.BeerApiService
 import com.example.beerinformation.datasource.remote.BeersRemoteDataSourceImpl
+import com.example.beerinformation.datasource.remote.ResponseHandler
 import com.example.beerinformation.datasource.remote.createNetworkClient
 import com.example.beerinformation.domain.repository.BeersRepository
 import com.example.beerinformation.domain.usecase.GetBeerDetailsUseCase
@@ -40,11 +41,12 @@ val useCaseModule: Module = module {
 }
 
 val repositoryModule: Module = module {
-    single { BeersRepositoryImpl( remoteDataSource = get()) as BeersRepository }
+    single { BeersRepositoryImpl( remoteDataSource = get(), responseHandler = get()) as BeersRepository }
 }
 
 val dataSourceModule: Module = module {
     single { BeersRemoteDataSourceImpl(api = beersApi) as BeersRemoteDataSource  }
+    single { ResponseHandler() }
 }
 
 val networkModule: Module = module {

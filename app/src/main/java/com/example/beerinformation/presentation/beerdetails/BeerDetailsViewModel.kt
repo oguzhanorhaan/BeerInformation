@@ -47,19 +47,18 @@ class BeerDetailsViewModel constructor(private val beerItemId: Integer, private 
     }
 
     private fun getSelectedBeerDetails() {
+
         coroutineScope.launch {
-            try {
-                _status.value = BeersApiStatus.LOADING
-                // this will run on a thread managed by Retrofit
-                val result = getBeerDetailsUseCase.get(beerItemId.toString())
-                _status.value = BeersApiStatus.DONE
+            _status.value = BeersApiStatus.LOADING
+            // this will run on a thread managed by Retrofit
+            val result = getBeerDetailsUseCase.get(beerItemId.toString())
+            _status.value = result.status
 
-                //For providing separation of concerns, data transfer objects(DTO) mapped to domain objects
-                val resItem  = result[0]
-                _selectedItem.value = resItem.mapToDomain()
-
-            }catch (e: Exception) {
-                _status.value = BeersApiStatus.ERROR
+            when(_status.value) {
+                BeersApiStatus.DONE -> {
+                    val resItem  = result?.data?.get(0)
+                    _selectedItem.value = resItem?.mapToDomain()
+                }
             }
         }
     }
