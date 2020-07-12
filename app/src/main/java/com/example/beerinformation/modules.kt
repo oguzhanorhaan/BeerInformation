@@ -46,11 +46,11 @@ val repositoryModule: Module = module {
 
 val dataSourceModule: Module = module {
     single { BeersRemoteDataSourceImpl(api = beersApi) as BeersRemoteDataSource  }
-    single { ResponseHandler() }
 }
 
 val networkModule: Module = module {
     single { beersApi }
+    single { ResponseHandler() }
 }
 
 
