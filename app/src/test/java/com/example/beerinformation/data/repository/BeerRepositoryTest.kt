@@ -1,13 +1,13 @@
 package com.example.beerinformation.data.repository
 
 import com.example.beerinformation.data.datasource.BeersRemoteDataSource
+import com.example.beerinformation.data.model.BeersApiStatus
 import com.example.beerinformation.data.model.Resource
 import com.example.beerinformation.datasource.model.BeerItemDTO
 import com.example.beerinformation.datasource.remote.BeerApiService
 import com.example.beerinformation.datasource.remote.BeersRemoteDataSourceImpl
 import com.example.beerinformation.datasource.remote.ResponseHandler
 import com.example.beerinformation.domain.repository.BeersRepository
-import com.example.beerinformation.presentation.beerlist.BeersApiStatus
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.Assert.assertEquals
