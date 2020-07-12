@@ -1,7 +1,8 @@
-package com.example.beerinformation
+package com.example.beerinformation.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.beerinformation.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
