@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.beerinformation.presentation.beerlist.BeerListAdapter
 import com.example.beerinformation.domain.model.BeerItem
-import com.example.beerinformation.data.datasource.BeersApiStatus
+import com.example.beerinformation.data.model.BeersApiStatus
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<BeerItem>?) {
