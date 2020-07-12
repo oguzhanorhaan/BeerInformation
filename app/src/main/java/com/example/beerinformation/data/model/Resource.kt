@@ -1,6 +1,6 @@
 package com.example.beerinformation.data.model
 
-import com.example.beerinformation.presentation.beerlist.BeersApiStatus
+import com.example.beerinformation.data.datasource.BeersApiStatus
 
 data class Resource<out T>(val status: BeersApiStatus, val data: T?, val message: String?) {
     companion object {

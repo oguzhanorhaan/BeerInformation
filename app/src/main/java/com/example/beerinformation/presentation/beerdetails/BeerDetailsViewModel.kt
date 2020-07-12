@@ -5,13 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.beerinformation.datasource.model.mapToDomain
 import com.example.beerinformation.domain.model.BeerItem
-import com.example.beerinformation.presentation.beerlist.BeersApiStatus
+import com.example.beerinformation.data.datasource.BeersApiStatus
 import com.example.beerinformation.domain.usecase.GetBeerDetailsUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class BeerDetailsViewModel constructor(private val beerItemId: Integer, private val getBeerDetailsUseCase: GetBeerDetailsUseCase) : ViewModel() {
 
